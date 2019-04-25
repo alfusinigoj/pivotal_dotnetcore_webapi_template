@@ -21,6 +21,8 @@
         - XUnit
         - Moq
         - Microsoft.AspNetCore.TestHost
+    - Sample AzureDevops pipeline
+    
 ## Steps to install the template
 - Compile the solution
 - Navigate to `Pivotal.NetCore.WebApi.Template` folder and execute `./nupublish.bat %1` where `%1` is the minor version number of the package 
