@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit" Version="2.3.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
+    <PackageReference Include="Autofac" Version="4.8.1" />
+    <PackageReference Include="AutoFixture" Version="4.5.0" />
+    <PackageReference Include="FluentAssertions" Version="5.4.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.HttpsPolicy" Version="2.1.1" />
+    <PackageReference Include="xunit" Version="2.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Pivotal.NetCore.WebApi.Template.csproj" />
+  </ItemGroup>
+
+</Project>
