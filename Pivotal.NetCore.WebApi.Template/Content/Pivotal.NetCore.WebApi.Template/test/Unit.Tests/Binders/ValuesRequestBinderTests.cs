@@ -1,11 +1,12 @@
 ﻿using FluentAssertions;
 using Pivotal.NetCore.WebApi.Template.Binders;
-using Pivotal.NetCore.WebApi.Template.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System;
 using System.Threading.Tasks;
+using Pivotal.NetCore.WebApi.Template.Features;
+using Pivotal.NetCore.WebApi.Template.Features.Values;
 using Xunit;
 
 namespace Pivotal.NetCore.WebApi.Template.Unit.Tests.Binders
@@ -41,7 +42,7 @@ namespace Pivotal.NetCore.WebApi.Template.Unit.Tests.Binders
 
             binder.BindModelAsync(bindingContext);
 
-            var expectedModel = new ValuesRequest() { Param1 = "12345678", Param2 = "123" };
+            var expectedModel = new GetValues.Request() { Param1 = "12345678", Param2 = "123" };
 
             bindingContext.Result.Model.Should().BeEquivalentTo(expectedModel);
         }

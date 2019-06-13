@@ -12,9 +12,14 @@ namespace Pivotal.NetCore.WebApi.Template
     {
         public static void Main(string[] args)
         {
-            var host = new WebHostBuilder().UseKestrel().UseCloudFoundryHosting()
-                .UseContentRoot(Directory.GetCurrentDirectory()).UseIISIntegration().UseStartup<Startup>()
-                .ConfigureAppConfiguration(ConfigureAppAction()).ConfigureLogging(ConfigureLogging()).Build();
+            var host = new WebHostBuilder()
+                            .UseKestrel()
+                            .UseCloudFoundryHosting()
+                            .UseContentRoot(Directory.GetCurrentDirectory())
+                            .UseIISIntegration()
+                            .UseStartup<Startup>()
+                            .ConfigureAppConfiguration(ConfigureAppAction())
+                            .ConfigureLogging(ConfigureLogging()).Build();
 
             host.Run();
         }

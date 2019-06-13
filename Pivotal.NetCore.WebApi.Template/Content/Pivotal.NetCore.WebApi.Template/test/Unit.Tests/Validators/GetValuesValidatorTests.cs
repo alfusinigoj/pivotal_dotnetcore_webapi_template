@@ -1,27 +1,23 @@
 ﻿using FluentValidation;
-using Pivotal.NetCore.WebApi.Template.Models;
-using Pivotal.NetCore.WebApi.Template.Validators;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Pivotal.NetCore.WebApi.Template.Features.Values;
 using Xunit;
 
 namespace Pivotal.NetCore.WebApi.Template.Unit.Tests.Validators
 {
-    public class ValuesRequestValidatorTests
+    public class GetValuesValidatorTests
     {
-        ValuesRequestValidator validator;
-        ValuesRequest request;
+        private readonly GetValues.Validator validator;
+        private GetValues.Request request;
 
-        public ValuesRequestValidatorTests()
+        public GetValuesValidatorTests()
         {
-            validator = new ValuesRequestValidator();
+            validator = new GetValues.Validator();
         }
 
         [Fact]
         public void Test_IfValidatorIsOfTypeAbstractValidator()
         {
-            Assert.True(validator is AbstractValidator<ValuesRequest>);
+            Assert.True(validator is AbstractValidator<GetValues.Request>);
         }
 
         [Theory]
@@ -30,7 +26,7 @@ namespace Pivotal.NetCore.WebApi.Template.Unit.Tests.Validators
         [InlineData("123456AA", false)]
         public void Test_ValidatorValidatesIfParam1Of8Digits(string value, bool isValid)
         {
-            request = new ValuesRequest
+            request = new GetValues.Request
             {
                 Param1 = value,
                 Param2 = "1234"
@@ -44,7 +40,7 @@ namespace Pivotal.NetCore.WebApi.Template.Unit.Tests.Validators
         [InlineData("1234", true)]
         public void Test_ValidatorValidatesIfParam2IsNotNullAndNotEmpty(string value, bool isValid)
         {
-            request = new ValuesRequest
+            request = new GetValues.Request
             {
                 Param1 = "12345678",
                 Param2 = value

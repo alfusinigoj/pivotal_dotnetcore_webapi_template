@@ -1,7 +1,8 @@
-﻿using Pivotal.NetCore.WebApi.Template.Models;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Threading.Tasks;
+using Pivotal.NetCore.WebApi.Template.Features;
+using Pivotal.NetCore.WebApi.Template.Features.Values;
 
 namespace Pivotal.NetCore.WebApi.Template.Binders
 {
@@ -11,7 +12,7 @@ namespace Pivotal.NetCore.WebApi.Template.Binders
         {
             try
             {
-                var model = new ValuesRequest
+                var model = new GetValues.Request
                 {
                     Param1 = (string)bindingContext.ActionContext.RouteData.Values["param1"],
                     Param2 = (string)bindingContext.ActionContext.RouteData.Values["param2"]

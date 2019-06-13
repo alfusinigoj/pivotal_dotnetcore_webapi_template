@@ -1,5 +1,4 @@
-﻿using Autofac;
-using Pivotal.NetCore.WebApi.Template.Extensions;
+﻿using Pivotal.NetCore.WebApi.Template.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Steeltoe.Common.HealthChecks;
@@ -11,21 +10,6 @@ namespace Pivotal.NetCore.WebApi.Template.Unit.Tests.Extensions
 {
     public class ServiceCollectionExtensionsTests
     {
-        [Fact]
-        public void Test_GetAutofacContainer()
-        {
-            IServiceCollection services = new ServiceCollection();
-            services.AddSingleton(new ServiceStub());
-
-            var container = services.GetAutofacContainer();
-
-            Assert.NotNull(container);
-            Assert.True(container is IContainer);
-
-            container.IsRegistered(typeof(ServiceStub));
-        }
-
-
         [Fact]
         public void Test_AddActuatorsAndHealthContributors()
         {
