@@ -1,6 +1,4 @@
-﻿using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Steeltoe.CloudFoundry.Connector.Relational;
@@ -27,17 +25,6 @@ namespace Pivotal.NetCore.WebApi.Template.Extensions
             );
 
             services.AddCloudFoundryActuators(configuration);
-        }
-
-        public static IContainer GetAutofacContainer(this IServiceCollection services)
-        {
-            var builder = new ContainerBuilder();
-
-            builder.RegisterMediatRHandlers();
-
-            builder.Populate(services);
-
-            return builder.Build();
         }
     }
 }

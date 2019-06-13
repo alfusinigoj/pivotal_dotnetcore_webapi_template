@@ -1,15 +1,13 @@
 ﻿using Pivotal.NetCore.WebApi.Template.Controllers;
-using Pivotal.NetCore.WebApi.Template.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Pivotal.NetCore.WebApi.Template.Features;
+using Pivotal.NetCore.WebApi.Template.Features.Values;
 using Xunit;
 
 namespace Pivotal.NetCore.WebApi.Template.Unit.Tests.Controllers
@@ -28,12 +26,12 @@ namespace Pivotal.NetCore.WebApi.Template.Unit.Tests.Controllers
         {
             var controller = new ValuesController(mediator.Object);
 
-            mediator.Setup(m => m.Send<ValuesResponse>(It.IsAny<ValuesRequest>(), It.IsAny<CancellationToken>()))
-                .Returns(Task.Run<ValuesResponse>(()=> { return new ValuesResponse(); }));
+            mediator.Setup(m => m.Send<GetValues.Response>(It.IsAny<GetValues.Request>(), It.IsAny<CancellationToken>()))
+                .Returns(Task.Run(()=> { return new GetValues.Response(); }));
 
-            var response = await controller.GetValues(new ValuesRequest { Param1 = "123", Param2 = "234" });
+            var response = await controller.GetValues( "123", "234" );
 
-            Assert.True(response.Value is ValuesResponse);
+            Assert.True(response.Value is GetValues.Response);
         }
 
         [Fact]

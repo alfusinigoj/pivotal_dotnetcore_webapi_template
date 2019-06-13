@@ -1,9 +1,8 @@
-﻿using Pivotal.NetCore.WebApi.Template.Models;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using Pivotal.NetCore.WebApi.Template.Features;
+using Pivotal.NetCore.WebApi.Template.Features.Values;
 using Xunit;
 
 namespace Pivotal.NetCore.WebApi.Template.Unit.Tests.Models
@@ -13,32 +12,21 @@ namespace Pivotal.NetCore.WebApi.Template.Unit.Tests.Models
         [Fact]
         public void TestRequestTypes()
         {
-            var request = new ValuesRequest();
+            var request = new GetValues.Request();
             Assert.True(request is IRequest);
-            Assert.True(request is IRequest<ValuesResponse>);
+            Assert.True(request is IRequest<GetValues.Response>);
         }
 
         [Fact]
         public void TestRequestProperties()
         {
-            var request = new ValuesRequest();
+            var request = new GetValues.Request();
 
             Assert.NotNull(request.GetType().GetProperty("Param1"));
             Assert.Equal("String", request.GetType().GetProperty("Param1").PropertyType.Name);
 
             Assert.NotNull(request.GetType().GetProperty("Param2"));
             Assert.Equal("String", request.GetType().GetProperty("Param2").PropertyType.Name);
-        }
-
-        [Fact]
-        public void TestRequestBindedAttributes()
-        {
-            var request = new ValuesRequest();
-            var attributes = Attribute.GetCustomAttributes(request.GetType());
-        
-            Assert.Single(attributes);
-            Assert.True(attributes[0] is ModelBinderAttribute);
-            Assert.Equal("ValuesRequestBinder", ((ModelBinderAttribute)attributes[0]).BinderType.Name);
         }
     }
 }

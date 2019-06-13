@@ -1,8 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
-using Pivotal.NetCore.WebApi.Template.Models;
+﻿using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Pivotal.NetCore.WebApi.Template.Features.Values;
 
 namespace Pivotal.NetCore.WebApi.Template.Controllers
 {
@@ -14,14 +13,15 @@ namespace Pivotal.NetCore.WebApi.Template.Controllers
 
         public ValuesController(IMediator mediator)
         {
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _mediator = mediator;
         }
 
         [HttpGet]
         [Route("v1/{param1}/{param2}")]
-        public async Task<ActionResult<ValuesResponse>> GetValues(ValuesRequest request)
+        public async Task<ActionResult<GetValues.Response>> GetValues(string param1, string param2)
         {
-            return await _mediator.Send<ValuesResponse>(request);
+            var request = new GetValues.Request {Param1 = param1, Param2 = param2};
+            return await _mediator.Send<GetValues.Response>(request);
         }
     }
 }

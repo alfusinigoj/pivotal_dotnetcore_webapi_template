@@ -1,12 +1,9 @@
-﻿using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using FluentValidation.AspNetCore;
+﻿using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Pivotal.Discovery.Client;
 using Pivotal.Extensions.Configuration.ConfigServer;
 using Steeltoe.CloudFoundry.Connector;
@@ -14,11 +11,13 @@ using Steeltoe.Extensions.Configuration.CloudFoundry;
 using Steeltoe.Management.CloudFoundry;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
+using Pivotal.NetCore.WebApi.Template.Bootstrap;
+using Pivotal.NetCore.WebApi.Template.Features.Values;
 
 namespace Pivotal.NetCore.WebApi.Template
 {
-    using Pivotal.NetCore.WebApi.Template.Extensions;
-    using Pivotal.NetCore.WebApi.Template.Validators;
+    using Extensions;
+    using Features;
 
     public class Startup
     {
@@ -26,8 +25,6 @@ namespace Pivotal.NetCore.WebApi.Template
         {
             this.Configuration = configuration;
         }
-
-        public static IContainer Container { get; private set; } = new ContainerBuilder().Build();
 
         public IConfiguration Configuration { get; }
 
@@ -45,13 +42,12 @@ namespace Pivotal.NetCore.WebApi.Template
             }
 
             services.AddMediatR();
-
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+            
             services.AddActuatorsAndHealthContributors(Configuration);
-
             services.AddMvc().AddFluentValidation((fv) =>
             {
-                fv.RegisterValidatorsFromAssemblyContaining<ValuesRequestValidator>();
-                fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
+                fv.RegisterValidatorsFromAssemblyContaining<GetValues>();
             });
 
             services.AddSwaggerGen(c =>
@@ -59,7 +55,7 @@ namespace Pivotal.NetCore.WebApi.Template
                 c.SwaggerDoc("v1", new Info { Title = "Values API", Version = "v1" });
             });
 
-            return new AutofacServiceProvider(Container = services.GetAutofacContainer());
+            return services.BuildServiceProvider();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -84,7 +80,8 @@ namespace Pivotal.NetCore.WebApi.Template
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Form API V1");
                 c.RoutePrefix = "swagger";
             });
-
+            
+            app.UseMiddleware<ValidationExceptionMiddleware>();
             app.UseMvc();
 
             if (configuration.HasCloudFoundryServiceConfigurations())
