@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Pivotal.Discovery.Client;
 using Pivotal.NetCore.WebApi.Template.Bootstrap;
 using Pivotal.NetCore.WebApi.Template.Extensions;
