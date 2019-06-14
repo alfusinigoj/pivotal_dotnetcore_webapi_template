@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Pivotal.Discovery.Client;
-using Pivotal.Extensions.Configuration.ConfigServer;
 using Pivotal.NetCore.WebApi.Template.Bootstrap;
 using Pivotal.NetCore.WebApi.Template.Extensions;
 using Pivotal.NetCore.WebApi.Template.Features.Values;
@@ -29,14 +29,12 @@ namespace Pivotal.NetCore.WebApi.Template
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddLogging();
             services.AddOptions();
 
             if (Configuration.HasCloudFoundryServiceConfigurations())
             {
-                services.AddConfiguration(Configuration);
-                services.AddDiscoveryClient(Configuration);
                 services.ConfigureCloudFoundryOptions(Configuration);
+                services.AddDiscoveryClient(Configuration);
             }
 
             services.AddMediatR(typeof(Startup).Assembly);

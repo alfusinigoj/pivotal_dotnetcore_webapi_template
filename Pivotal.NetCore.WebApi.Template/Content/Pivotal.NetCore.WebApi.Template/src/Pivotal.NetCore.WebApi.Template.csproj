@@ -27,9 +27,9 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
     <PackageReference Include="Pivotal.Discovery.Client" Version="1.1.0" />
-    <PackageReference Include="Pivotal.Extensions.Configuration.ConfigServerBase" Version="2.2.0" />
-    <PackageReference Include="Pivotal.Extensions.Configuration.ConfigServerCore" Version="2.2.0" />
     <PackageReference Include="Steeltoe.CloudFoundry.ConnectorCore" Version="2.2.0" />
+    <PackageReference Include="Steeltoe.Extensions.Configuration.ConfigServerBase" Version="2.2.0" />
+    <PackageReference Include="Steeltoe.Extensions.Configuration.ConfigServerCore" Version="2.2.0" />
     <PackageReference Include="Steeltoe.Management.CloudFoundryCore" Version="2.2.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
   </ItemGroup>
@@ -48,6 +48,12 @@
     <None Update="manifest.yml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Pivotal.Extensions.Configuration.ConfigServerCore, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\..\.nuget\packages\pivotal.extensions.configuration.configservercore\2.2.0\lib\netstandard2.0\Pivotal.Extensions.Configuration.ConfigServerCore.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Pivotal.Extensions.Configuration.ConfigServer;
 using Steeltoe.Extensions.Configuration.CloudFoundry;
 using System;
 using System.IO;
+using Steeltoe.Extensions.Configuration.ConfigServer;
 
 namespace Pivotal.NetCore.WebApi.Template
 {
@@ -34,7 +34,7 @@ namespace Pivotal.NetCore.WebApi.Template
                         .AddJsonFile("appsettings.json", false, false)
                         .AddJsonFile($"appsettings.{environment}.json", true, false)
                         .AddEnvironmentVariables()
-                        .AddConfigServer(clientSettings, new LoggerFactory().AddConsole(config.Build()));
+                        .AddConfigServer(clientSettings);
                 };
         }
 
