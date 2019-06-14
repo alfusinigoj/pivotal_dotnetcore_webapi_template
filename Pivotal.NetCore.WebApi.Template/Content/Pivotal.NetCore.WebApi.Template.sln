@@ -13,6 +13,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{829E80BA-BD8
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{1026CCA7-857D-47E8-A870-24699FA730F5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildFiles", "BuildFiles", "{F0E3D8BE-8D5A-46B6-B440-59E01A907BA8}"
+ProjectSection(SolutionItems) = preProject
+	build.bat = build.bat
+	build.sh = build.sh
+	configure-build.ps1 = configure-build.ps1
+	default.ps1 = default.ps1
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -1,4 +1,5 @@
-﻿using FluentValidation.AspNetCore;
+﻿using System;
+using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -6,24 +7,21 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Pivotal.Discovery.Client;
 using Pivotal.Extensions.Configuration.ConfigServer;
+using Pivotal.NetCore.WebApi.Template.Bootstrap;
+using Pivotal.NetCore.WebApi.Template.Extensions;
+using Pivotal.NetCore.WebApi.Template.Features.Values;
 using Steeltoe.CloudFoundry.Connector;
 using Steeltoe.Extensions.Configuration.CloudFoundry;
 using Steeltoe.Management.CloudFoundry;
 using Swashbuckle.AspNetCore.Swagger;
-using System;
-using Pivotal.NetCore.WebApi.Template.Bootstrap;
-using Pivotal.NetCore.WebApi.Template.Features.Values;
 
 namespace Pivotal.NetCore.WebApi.Template
 {
-    using Extensions;
-    using Features;
-
     public class Startup
     {
         public Startup(IConfiguration configuration)
         {
-            this.Configuration = configuration;
+            Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -34,26 +32,20 @@ namespace Pivotal.NetCore.WebApi.Template
             services.AddLogging();
             services.AddOptions();
 
-            if (this.Configuration.HasCloudFoundryServiceConfigurations())
+            if (Configuration.HasCloudFoundryServiceConfigurations())
             {
-                services.AddConfiguration(this.Configuration);
-                services.AddDiscoveryClient(this.Configuration);
-                services.ConfigureCloudFoundryOptions(this.Configuration);
+                services.AddConfiguration(Configuration);
+                services.AddDiscoveryClient(Configuration);
+                services.ConfigureCloudFoundryOptions(Configuration);
             }
 
-            services.AddMediatR();
+            services.AddMediatR(typeof(Startup).Assembly);
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-            
-            services.AddActuatorsAndHealthContributors(Configuration);
-            services.AddMvc().AddFluentValidation((fv) =>
-            {
-                fv.RegisterValidatorsFromAssemblyContaining<GetValues>();
-            });
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info { Title = "Values API", Version = "v1" });
-            });
+            services.AddActuatorsAndHealthContributors(Configuration);
+            services.AddMvc().AddFluentValidation(fv => { fv.RegisterValidatorsFromAssemblyContaining<GetValues>(); });
+
+            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Info {Title = "Values API", Version = "v1"}); });
 
             return services.BuildServiceProvider();
         }
@@ -62,13 +54,9 @@ namespace Pivotal.NetCore.WebApi.Template
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, IConfiguration configuration)
         {
             if (env.IsDevelopment())
-            {
                 app.UseDeveloperExceptionPage();
-            }
             else
-            {
                 app.UseHsts();
-            }
 
             app.UseHttpsRedirection();
 
@@ -80,7 +68,7 @@ namespace Pivotal.NetCore.WebApi.Template
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Form API V1");
                 c.RoutePrefix = "swagger";
             });
-            
+
             app.UseMiddleware<ValidationExceptionMiddleware>();
             app.UseMvc();
 

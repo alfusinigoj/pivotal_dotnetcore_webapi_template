@@ -5,9 +5,12 @@ properties {
   $solution_name = "Pivotal.NetCore.WebApi.Template"
   $domain = ""
   $environment = ""
+  $app_name = "Pivotal.NetCore.WebApi.Template"
+  $release_id = "win10-x64"
 
   $base_dir = resolve-path .
   $project_dir = "$base_dir\$project_name"
+  $test_dir = "$base_dir\$project_name\test"
   $project_file = "$project_dir\$project_name.csproj"
   $solution_file = "$base_dir\$solution_name.sln"
   $packages_dir = "$base_dir\packages"
@@ -52,7 +55,7 @@ task help {
 
 #These are the actual build tasks. They should be Pascal case by convention
 task InitialPrivateBuild -depends Clean, test
-task RunTests -depends Clean, AllTest
+task RunTests -depends Clean, UnitTests, IntegrationTests
 task DeveloperBuild -depends SetDebugBuild, Clean, RunTests
 task IntegrationBuild -depends SetReleaseBuild, PackageRestore, Clean, RunTests, Publish
 task Publish-Push -depends SetReleaseBuild, Clean, RunTests, Publish, push
@@ -75,10 +78,16 @@ task SetVersion {
 	Write-Host "Using version#: $version"
 }
 
-task AllTest {
-   Write-Host "******************* Now running All Tests *********************"
-   exec { & $dotnet_exe test -c $project_config }
+task UnitTests {
+   Write-Host "******************* Now running Unit Tests *********************"
+   exec { & $dotnet_exe test -c $project_config $test_dir\Unit.Tests }
 }
+
+task IntegrationTests {
+    Write-Host "******************* Now running Integration Tests *********************"
+    exec { & $dotnet_exe test -c $project_config $test_dir\Integration.Tests }
+}
+
 
 task Clean {
 	if (Test-Path $publish_dir) {
@@ -99,14 +108,14 @@ task Publish {
 	if (!(Test-Path $publish_dir)) {
 		New-Item -ItemType Directory -Force -Path $publish_dir
 	}
-	exec { & $dotnet_exe publish -c $project_config $project_file -o $publish_dir -r win10-x64}
+	exec { & $dotnet_exe publish -c $project_config $project_file -o $publish_dir -r $release_id}
 }
 
 task Push {
 	Push-Location $publish_dir
 
 	Write-Host "Pushing application to PCF"
-	exec { & "cf" push -d $domain --var environment=$environment -n "form-api-sandbox"}
+	exec { & "cf" push -d $domain --var environment=$environment -n $app_name}
 
 	Pop-Location
 }
