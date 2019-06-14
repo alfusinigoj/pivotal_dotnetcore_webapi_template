@@ -5,6 +5,7 @@ using Steeltoe.Extensions.Configuration.CloudFoundry;
 using System;
 using System.IO;
 using Steeltoe.Extensions.Configuration.ConfigServer;
+using Steeltoe.Extensions.Logging;
 
 namespace Pivotal.NetCore.WebApi.Template
 {
@@ -50,6 +51,7 @@ namespace Pivotal.NetCore.WebApi.Template
                                     builderContext.Configuration["Logging:IncludeScopes"]);
                             });
                     loggingBuilder.AddDebug();
+                    loggingBuilder.AddDynamicConsole();
                 };
         }
     }

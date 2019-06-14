@@ -5,12 +5,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Pivotal.Discovery.Client;
+using Steeltoe.Discovery.Client;
 using Pivotal.NetCore.WebApi.Template.Bootstrap;
 using Pivotal.NetCore.WebApi.Template.Extensions;
 using Pivotal.NetCore.WebApi.Template.Features.Values;
 using Steeltoe.CloudFoundry.Connector;
-using Steeltoe.Extensions.Configuration.CloudFoundry;
 using Steeltoe.Management.CloudFoundry;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -32,7 +31,6 @@ namespace Pivotal.NetCore.WebApi.Template
 
             if (Configuration.HasCloudFoundryServiceConfigurations())
             {
-                services.ConfigureCloudFoundryOptions(Configuration);
                 services.AddDiscoveryClient(Configuration);
             }
 

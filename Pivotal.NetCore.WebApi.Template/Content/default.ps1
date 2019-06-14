@@ -4,14 +4,14 @@ properties {
 
   $solution_name = "Pivotal.NetCore.WebApi.Template"
   $domain = ""
-  $environment = ""
+  $environment = "Development"
   $app_name = "Pivotal.NetCore.WebApi.Template"
-  $release_id = "win10-x64"
+  $release_id = "linux-x64"
 
   $base_dir = resolve-path .
   $project_dir = "$base_dir\$project_name"
   $test_dir = "$base_dir\$project_name\test"
-  $project_file = "$project_dir\$project_name.csproj"
+  $project_file = "$project_dir\src\$project_name.csproj"
   $solution_file = "$base_dir\$solution_name.sln"
   $packages_dir = "$base_dir\packages"
   $publish_dir = "$base_dir\publish"
@@ -115,7 +115,7 @@ task Push {
 	Push-Location $publish_dir
 
 	Write-Host "Pushing application to PCF"
-	exec { & "cf" push -d $domain --var environment=$environment -n $app_name}
+	exec { & "cf" push --var environment=$environment -n $app_name}
 
 	Pop-Location
 }
