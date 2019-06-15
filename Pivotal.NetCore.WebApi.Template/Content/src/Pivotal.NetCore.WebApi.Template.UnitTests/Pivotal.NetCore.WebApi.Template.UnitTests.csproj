@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Pivotal.NetCore.WebApi.Template.csproj" />
+    <ProjectReference Include="..\Pivotal.NetCore.WebApi.Template\Pivotal.NetCore.WebApi.Template.csproj" />
   </ItemGroup>
 
 </Project>
