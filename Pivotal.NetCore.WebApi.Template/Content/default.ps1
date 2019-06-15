@@ -9,11 +9,9 @@ properties {
   $release_id = "linux-x64"
 
   $base_dir = resolve-path .
-  $project_dir = "$base_dir\$project_name"
-  $test_dir = "$base_dir\$project_name\test"
-  $project_file = "$project_dir\src\$project_name.csproj"
+  $project_dir = "$base_dir\src\$project_name"
+  $project_file = "$project_dir\src\$project_name\$project_name.csproj"
   $solution_file = "$base_dir\$solution_name.sln"
-  $packages_dir = "$base_dir\packages"
   $publish_dir = "$base_dir\publish"
 
   $version = get_version
@@ -80,12 +78,12 @@ task SetVersion {
 
 task UnitTests {
    Write-Host "******************* Now running Unit Tests *********************"
-   exec { & $dotnet_exe test -c $project_config $test_dir\Unit.Tests }
+   exec { & $dotnet_exe test -c $project_config "$project_dir.UnitTests" -- xunit.parallelizeTestCollections=true }
 }
 
 task IntegrationTests {
     Write-Host "******************* Now running Integration Tests *********************"
-    exec { & $dotnet_exe test -c $project_config $test_dir\Integration.Tests }
+    exec { & $dotnet_exe test -c $project_config "$project_dir.IntegrationTests" -- xunit.parallelizeTestCollections=true }
 }
 
 
