@@ -10,7 +10,7 @@ properties {
 
   $base_dir = resolve-path .
   $project_dir = "$base_dir\src\$project_name"
-  $project_file = "$project_dir\src\$project_name\$project_name.csproj"
+  $project_file = "$project_dir\$project_name.csproj"
   $solution_file = "$base_dir\$solution_name.sln"
   $publish_dir = "$base_dir\publish"
 
